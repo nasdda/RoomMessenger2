@@ -1,8 +1,8 @@
 import './App.css';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles'
+import { createTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles'
 import Router from './router/router'
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: "#673ab7",
