@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import firebase, { auth } from '../../firebase/firebase'
-import 'firebase/compat/firestore';
+
+import app from '../../firebase/firebase'
+import { getAuth, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth";
+
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import GoogleButton from 'react-google-button'
@@ -12,6 +15,8 @@ import Fade from '@material-ui/core/Fade'
 
 import JoinRoom from '../JoinRoom'
 
+
+const auth = getAuth();
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn() {
     const signInWithGoogle = () => {
-        const provider = new firebase.auth.GoogleAuthProvider()
-        auth.signInWithPopup(provider)
+        const provider = new GoogleAuthProvider()
+        signInWithPopup(auth, provider)
     }
     return (
         <GoogleButton

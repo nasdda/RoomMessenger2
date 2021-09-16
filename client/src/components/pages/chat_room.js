@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import { auth } from '../../firebase/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -11,9 +10,10 @@ import IconButton from '@material-ui/core/IconButton'
 
 import EmojiPicker from '../EmojiPicker'
 
-import firebase from '../../firebase/firebase'
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import app from '../../firebase/firebase'
+import { getFirestore } from "firebase/firestore"
+import { collection, addDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
+const auth = getAuth()
 
 export default function ChatRoom() {
     const classes = useStyles()
@@ -81,13 +81,8 @@ export default function ChatRoom() {
     const [toggleEmoji, setToggleEmoji] = useState(false)
 
     const [user] = useAuthState(auth)
-    const firestore = firebase.firestore();
-    const messagesRef = firestore.collection('messages')
-    const query = messagesRef.orderBy('createdAt').limit(25);
-    const [messages] = useCollectionData(query, { idField: 'id' });
-    console.log(messages)
-
-
+    const db = getFirestore()
+    
     return (
         <div className={classes.outerContainer}>
             <div className={classes.chat}>
@@ -98,6 +93,12 @@ export default function ChatRoom() {
                     onSubmit={event => {
                         event.preventDefault()
                         console.log(inputText)
+                        addDoc(collection(db, "messages"), {
+                            content: inputText,
+                            createdAt: Date.now()
+                        }).then((docRef) => {
+                            console.log(docRef)
+                        })
                         setInputText("")
                     }}>
                     <div className={classes.emojiControl}>

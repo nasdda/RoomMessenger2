@@ -1,8 +1,9 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import { initializeApp } from "firebase/app"
+import 'firebase/auth'
+import 'firebase/firestore'
 
-firebase.initializeApp({
+
+const app = initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: "roommessenger-95b6c.firebaseapp.com",
     projectId: "roommessenger-95b6c",
@@ -12,7 +13,5 @@ firebase.initializeApp({
     measurementId: "G-LLZG0E4ZFM"
 })
 
-const auth = firebase.auth()
 
-export { auth }
-export default firebase 
+export default app
