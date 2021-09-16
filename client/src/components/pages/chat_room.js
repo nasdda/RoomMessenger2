@@ -11,9 +11,11 @@ import IconButton from '@material-ui/core/IconButton'
 import EmojiPicker from '../EmojiPicker'
 
 import app from '../../firebase/firebase'
-import { getFirestore } from "firebase/firestore"
-import { collection, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import {
+    collection, addDoc, getFirestore,
+    query, getDocs, limit
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
@@ -74,15 +76,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const auth = getAuth()
+const db = getFirestore()
 
-export default function ChatRoom() {
+function sendMessage(message) {
+    addDoc(collection(db, "messages"), {
+        content: message,
+        createdAt: Date.now()
+    }).then((docRef) => {
+        console.log(docRef)
+    })
+}
+
+async function getMessages() {
+    const q = query(collection(db, "messages"), limit(5));
+    const result = []
+    const queryResult = await getDocs(q)
+    queryResult.forEach((doc) => {
+        result.push([doc.id, doc.data])
+        console.log(doc.id, " => ", doc.data());
+    });
+    return result
+}
+
+function ChatRoom() {
     const classes = useStyles()
     const [inputText, setInputText] = useState("")
     const [toggleEmoji, setToggleEmoji] = useState(false)
 
     const [user] = useAuthState(auth)
-    const db = getFirestore()
-    
+
     return (
         <div className={classes.outerContainer}>
             <div className={classes.chat}>
@@ -93,13 +115,9 @@ export default function ChatRoom() {
                     onSubmit={event => {
                         event.preventDefault()
                         console.log(inputText)
-                        addDoc(collection(db, "messages"), {
-                            content: inputText,
-                            createdAt: Date.now()
-                        }).then((docRef) => {
-                            console.log(docRef)
-                        })
+                        sendMessage(inputText)
                         setInputText("")
+                        console.log(getMessages())
                     }}>
                     <div className={classes.emojiControl}>
                         {toggleEmoji &&
@@ -142,3 +160,6 @@ export default function ChatRoom() {
     )
 
 }
+
+
+export default React.memo(ChatRoom)
