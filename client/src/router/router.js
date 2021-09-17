@@ -6,8 +6,8 @@ import {
 
 
 // pages
-import FrontPage from '../components/pages/front_page'
-import ChatRoom from '../components/pages/chat_room'
+import FrontPage from '../components/pages/front_page/front_page'
+import ChatRoom from '../components/pages/chat_room/chat_room'
 
 export default function App() {
     return (
