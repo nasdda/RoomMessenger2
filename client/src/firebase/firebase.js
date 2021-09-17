@@ -5,12 +5,12 @@ import 'firebase/firestore'
 
 const app = initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: "roommessenger-95b6c.firebaseapp.com",
-    projectId: "roommessenger-95b6c",
-    storageBucket: "roommessenger-95b6c.appspot.com",
-    messagingSenderId: "465553247153",
-    appId: "1:465553247153:web:1dd1dd1f58462feecb4b90",
-    measurementId: "G-LLZG0E4ZFM"
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID
 })
 
 
