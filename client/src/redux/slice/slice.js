@@ -5,22 +5,23 @@ import { createSlice } from '@reduxjs/toolkit'
 export const slice = createSlice({
     name: "main",
     initialState: {
-        messages: []
+        messages: [],
     },
     reducers: {
         addMessage: (state, action) => {
-            state.messages = [...state.messages, action.payload.message]
+            const new_messages = [...state.messages, action.payload.message]
+            new_messages.sort((a, b) => { return a.data().createdAt - b.data().createdAt })
+            state.messages = new_messages
         },
-        emptyMessage: state => {
+        emptyMessages: (state) => {
             state.messages = []
         }
     }
 })
 
 
-
 export const {
-    addMessage, emptyMessage
+    addMessage, emptyMessages, setChatEndRef
 } = slice.actions
 
 export const selectMessages = state => state.main.messages
