@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
+import { useDispatch } from 'react-redux'
+import { setGlobalRoomName, setGlobalUsername } from '../../../redux/slice/slice'
 
 const useStyles = makeStyles((theme) => ({
     linkText: {
@@ -18,7 +20,15 @@ const useStyles = makeStyles((theme) => ({
 
 
 function JoinRoom(props) {
-    const classes = useStyles();
+    const [roomNameError, setRoomNameError] = useState({ hasError: false, errorCause: "" })
+    const [usernameError, setUsernameError] = useState({ hasError: false, errorCause: "" })
+    const [roomName, setRoomName] = useState("")
+    const [username, setUsername] = useState("")
+
+    const classes = useStyles()
+    const history = useHistory()
+
+    const dispatch = useDispatch()
 
     return (
         <Grid
@@ -47,8 +57,12 @@ function JoinRoom(props) {
                             variant="outlined"
                             type="text"
                             size="small"
-                            value={props.username}
-                            onChange={event => { props.setUsername(event.target.value) }}
+                            value={username}
+                            error={usernameError.hasError}
+                            helperText={usernameError.hasError && usernameError.errorCause}
+                            onChange={event => {
+                                setUsername(event.target.value)
+                            }}
                         />
                     </Grid>
                     <Grid item>
@@ -57,8 +71,12 @@ function JoinRoom(props) {
                             variant="outlined"
                             type="text"
                             size="small"
-                            value={props.roomName}
-                            onChange={event => { props.setRoomName(event.target.value) }}
+                            value={roomName}
+                            error={roomNameError.hasError}
+                            helperText={roomNameError.hasError && roomNameError.errorCause}
+                            onChange={event => {
+                                setRoomName(event.target.value)
+                            }}
                         />
                     </Grid>
                     <Grid item>
@@ -68,11 +86,25 @@ function JoinRoom(props) {
                             spacing={1}>
                             <Grid item>
                                 <div>
-                                    <NavLink to={`/chatroom?room=${props.roomName}`} className={classes.linkText}>
-                                        <Button variant="contained" color={"primary"} fullWidth>
-                                            Join
-                                        </Button>
-                                    </NavLink>
+                                    <Button
+                                        variant="contained"
+                                        color={"primary"}
+                                        onClick={() => {
+                                            const parsedUsername = username.trim()
+                                            const parsedRoomName = roomName.trim()
+                                            if (parsedUsername) {
+                                                if (parsedRoomName) {
+                                                    history.push(`/chatroom?room=${parsedRoomName}`)
+                                                } else {
+                                                    setRoomNameError({ hasError: true, errorCause: "Room Name cannot be empty" })
+                                                }
+                                            } else {
+                                                setUsernameError({ hasError: true, errorCause: "Username cannot be empty" })
+                                            }
+                                        }}
+                                        fullWidth>
+                                        Join
+                                    </Button>
                                 </div>
                             </Grid>
                             <Grid item>
