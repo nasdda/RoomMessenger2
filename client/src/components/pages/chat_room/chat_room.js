@@ -13,14 +13,14 @@ import {
     collection, addDoc, getFirestore,
     query, getDocs, limit, doc,
     onSnapshot, orderBy
-} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+} from "firebase/firestore"
+import { getAuth } from "firebase/auth"
 
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { Unsubscribe } from '@material-ui/icons'
 
 import { selectMessages, addMessage, emptyMessages } from '../../../redux/slice/slice'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +92,6 @@ function ChatRoom() {
                 sendMessage={inputSendMessage} />
         </div>
     )
-
 }
 
 
