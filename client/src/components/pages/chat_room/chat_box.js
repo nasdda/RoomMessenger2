@@ -27,7 +27,10 @@ function ChatBox(props) {
         return <ChatContent
             key={doc.id}
             message={doc.data().content}
-            uid={doc.data().uid} />
+            uid={doc.data().uid}
+            createdAt={doc.data().createdAt}
+            photoURL={doc.data().photoURL}
+        />
     }
 
 

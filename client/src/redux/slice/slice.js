@@ -5,6 +5,8 @@ import { createSlice } from '@reduxjs/toolkit'
 export const slice = createSlice({
     name: "main",
     initialState: {
+        username: "",
+        roomName: "",
         messages: [],
     },
     reducers: {
@@ -15,15 +17,24 @@ export const slice = createSlice({
         },
         emptyMessages: (state) => {
             state.messages = []
+        },
+        setGlobalUsername: (state, action) => {
+            state.username = action.payload.username
+        },
+        setGlobalRoomName: (state, action) => {
+            state.roomName = action.payload.roomName
         }
     }
 })
 
 
 export const {
-    addMessage, emptyMessages, setChatEndRef
+    addMessage, emptyMessages, setChatEndRef,
+    setGlobalRoomName, setGlobalUsername
 } = slice.actions
 
 export const selectMessages = state => state.main.messages
+export const selectUsername = state => state.main.username
+export const selectRoomName = state => state.main.roomName
 
 export default slice.reducer
