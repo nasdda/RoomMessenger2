@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-
 function ChatBox(props) {
     const classes = useStyles()
     const endRef = useRef(null);
