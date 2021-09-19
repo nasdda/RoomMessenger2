@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 import { setGlobalRoomName, setGlobalUsername } from '../../../redux/slice/slice'
 
+
 const useStyles = makeStyles((theme) => ({
     linkText: {
         textDecoration: "none",
@@ -90,7 +91,6 @@ function JoinRoom(props) {
                             onChange={event => {
                                 setUsername(event.target.value)
                             }}
-                            required
                         />
                     </Grid>
                     <Grid item>
@@ -105,7 +105,6 @@ function JoinRoom(props) {
                             onChange={event => {
                                 setRoomName(event.target.value)
                             }}
-                            required
                         />
                     </Grid>
                     <Grid item>

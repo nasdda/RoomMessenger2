@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
-import { useAuthState } from 'react-firebase-hooks/auth'
+import app from '../../../firebase/firebase'
 
 import { makeStyles } from '@material-ui/core/styles'
-
 
 import ChatBox from './chat_box'
 import InputArea from './input_area'
 
-import app from '../../../firebase/firebase'
 import {
     collection, addDoc, getFirestore,
     query, getDocs, limit, doc,
@@ -16,10 +14,10 @@ import {
 } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
 
-import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { Unsubscribe } from '@material-ui/icons'
-
-import { selectMessages, addMessage, emptyMessages } from '../../../redux/slice/slice'
+import {
+    selectMessages, addMessage, emptyMessages,
+    selectUser,
+} from '../../../redux/slice/slice'
 import { useDispatch, useSelector } from 'react-redux'
 
 
@@ -58,7 +56,7 @@ function sendMessage(message, uid, photoURL) {
 
 function ChatRoom() {
     const classes = useStyles()
-    const [user] = useAuthState(auth)
+    const user = useSelector(selectUser)
     const messages = useSelector(selectMessages)
     const dispatch = useDispatch()
 
