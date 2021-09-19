@@ -26,12 +26,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center"
     },
     front: {
-        height: "30rem",
+        height: "fit-content",
         width: "25rem",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        animation: "fadeIn 5s;"
+        padding: "3rem 0"
     },
     linkText: {
         textDecoration: "none",
@@ -58,7 +58,7 @@ export default function FrontPage() {
     const classes = useStyles()
 
     return (
-        <Fade in timeout={2000}>
+        <Fade in timeout={1500}>
             <div className={classes.root}>
                 <Paper elevation={5} className={classes.front}>
                     {user ?
