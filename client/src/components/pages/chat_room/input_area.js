@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import SendIcon from '@material-ui/icons/Send'
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 function InputArea(props) {
     const [inputText, setInputText] = useState("")
     const [toggleEmoji, setToggleEmoji] = useState(false)
-
+    const emojiIconRef = useRef(null)
     const classes = useStyles()
 
     return (
@@ -71,6 +71,7 @@ function InputArea(props) {
                             setInputText={setInputText}
                             inputText={inputText}
                             setToggleEmoji={setToggleEmoji}
+                            emojiIconRef={emojiIconRef}
                         />
                     }
                     <IconButton
@@ -78,6 +79,7 @@ function InputArea(props) {
                         aria-label="Emojis"
                         component="span"
                         className={classes.emojiButton}
+                        ref={emojiIconRef}
                         onClick={() => {
                             setToggleEmoji(!toggleEmoji)
                         }}

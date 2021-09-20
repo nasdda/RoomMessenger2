@@ -12,10 +12,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-function useOutsideAlerter(ref, setToggle) {
+function useOutsideAlerter(ref, setToggle, emojiIconRef) {
     useEffect(() => {
         function handleClickOutside(event) {
-            if (ref.current && !ref.current.contains(event.target)) {
+            if (ref.current && !ref.current.contains(event.target) && !emojiIconRef.current.contains(event.target)) {
                 setToggle(false)
             }
         }
@@ -29,7 +29,7 @@ function useOutsideAlerter(ref, setToggle) {
 function EmojiPicker(props) {
     const classes = useStyles()
     const ref = useRef(null)
-    useOutsideAlerter(ref, props.setToggleEmoji)
+    useOutsideAlerter(ref, props.setToggleEmoji, props.emojiIconRef)
 
     return (
         <div className={classes.emojiPicker} ref={ref}>
