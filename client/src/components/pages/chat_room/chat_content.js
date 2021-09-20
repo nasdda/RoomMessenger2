@@ -4,10 +4,12 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import app from '../../../firebase/firebase'
 
-import { useSelector, useDispatch } from 'react-redux'
+// import { useSelector, useDispatch } from 'react-redux'
 
 import Tooltip from '@material-ui/core/Tooltip'
-import { selectUser } from '../../../redux/slice/slice'
+
+import { getAuth } from "firebase/auth"
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 const useStyles = makeStyles(theme => ({
     isOthers: {
@@ -55,12 +57,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
+const auth = getAuth()
 
 function ChatContent(props) {
     const endRef = useRef(null);
     const classes = useStyles()
 
-    const user = useSelector(selectUser)
+    const [user] = useAuthState(auth)
 
     useEffect(() => {
         if (endRef.current) {

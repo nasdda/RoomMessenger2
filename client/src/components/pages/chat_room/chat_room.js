@@ -12,13 +12,14 @@ import {
     query, getDocs, limit, doc,
     onSnapshot, orderBy
 } from "firebase/firestore"
-import { getAuth } from "firebase/auth"
 
 import {
     selectMessages, addMessage, emptyMessages,
-    selectUser,
 } from '../../../redux/slice/slice'
 import { useDispatch, useSelector } from 'react-redux'
+
+import { getAuth } from "firebase/auth"
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +57,7 @@ function sendMessage(message, uid, photoURL) {
 
 function ChatRoom(props) {
     const classes = useStyles()
-    const user = useSelector(selectUser)
+    const [user] = useAuthState(auth)
     const messages = useSelector(selectMessages)
     const dispatch = useDispatch()
     console.log(props.location.search)

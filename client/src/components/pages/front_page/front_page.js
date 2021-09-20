@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import app from '../../../firebase/firebase'
 
-import { getAuth, signInWithPopup } from "firebase/auth";
-import { GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup } from "firebase/auth"
+import { GoogleAuthProvider } from "firebase/auth"
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 import GoogleButton from 'react-google-button'
 
@@ -12,11 +13,7 @@ import Paper from '@material-ui/core/Paper'
 import Fade from '@material-ui/core/Fade'
 
 import JoinRoom from './JoinRoom'
-import { useSelector, useDispatch } from 'react-redux';
 
-import { selectUser, setUser } from '../../../redux/slice/slice'
-
-import { useAuthState } from 'react-firebase-hooks/auth'
 
 
 const auth = getAuth()
@@ -45,14 +42,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 function SignIn() {
-    const dispatch = useDispatch()
     const signInWithGoogle = () => {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
-            .then(result => {
-                dispatch(setUser({ user: result.user }))
-                console.log('user', result.user)
-            })
             .catch(error => {
                 console.log('error', error)
             })
@@ -68,15 +60,7 @@ export default function FrontPage() {
     const [username, setUsername] = useState("")
     const [roomName, setRoomName] = useState("")
     const [user] = useAuthState(auth)
-
-    const dispatch = useDispatch()
     const classes = useStyles()
-
-    useEffect(() => {
-        if(user) {
-            dispatch(setUser({user: user}))
-        }
-    }, [user])
 
     return (
         <Fade in timeout={1500}>
