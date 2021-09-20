@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import app from '../../../firebase/firebase'
@@ -16,8 +16,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { selectUser, setUser } from '../../../redux/slice/slice'
 
+import { useAuthState } from 'react-firebase-hooks/auth'
 
-const auth = getAuth();
+
+const auth = getAuth()
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,9 +67,16 @@ function SignIn() {
 export default function FrontPage() {
     const [username, setUsername] = useState("")
     const [roomName, setRoomName] = useState("")
-    const user = useSelector(selectUser)
+    const [user] = useAuthState(auth)
 
+    const dispatch = useDispatch()
     const classes = useStyles()
+
+    useEffect(() => {
+        if(user) {
+            dispatch(setUser({user: user}))
+        }
+    }, [user])
 
     return (
         <Fade in timeout={1500}>

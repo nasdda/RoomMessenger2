@@ -54,12 +54,12 @@ function sendMessage(message, uid, photoURL) {
 }
 
 
-function ChatRoom() {
+function ChatRoom(props) {
     const classes = useStyles()
     const user = useSelector(selectUser)
     const messages = useSelector(selectMessages)
     const dispatch = useDispatch()
-
+    console.log(props.location.search)
     useEffect(() => {
         dispatch(emptyMessages())
         const q2 = query(collection(db, "rooms", "317", "messages"), orderBy("createdAt", "desc"), limit(25))
