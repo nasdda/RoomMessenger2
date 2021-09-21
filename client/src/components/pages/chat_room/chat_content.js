@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "#f8e8ff",
         width: "fit-content",
         maxWidth: "25rem",
-        padding: "0 1rem 0.2rem 1rem",
+        padding: "0.3rem 0.8rem",
         borderRadius: "1rem"
 
     },
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "#e6e6e6",
         width: "fit-content",
         maxWidth: "25rem",
-        padding: "0 1rem 0.2rem 1rem",
+        padding: "0.3rem 0.8rem",
         borderRadius: "1rem"
     },
     avatarIcon: {

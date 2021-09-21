@@ -46,7 +46,9 @@ function SignIn() {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
             .catch(error => {
-                alert("Failed to sign in.")
+                if (error.code !== "auth/popup-closed-by-user") {
+                    alert("Error when signing in: \n", error.code)
+                }
             })
     }
     return (
@@ -59,7 +61,6 @@ function SignIn() {
 export default function FrontPage() {
     const [user] = useAuthState(auth)
     const classes = useStyles()
-
     return (
         <Fade in timeout={1500}>
             <div className={classes.root}>

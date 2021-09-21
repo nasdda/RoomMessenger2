@@ -42,11 +42,11 @@ const useStyles = makeStyles((theme) => ({
 const auth = getAuth()
 const db = getFirestore()
 
-function sendMessage(message, uid, photoURL) {
+function sendMessage(message, roomName, uid, photoURL) {
     message.trim()
     if (!message)
         return
-    addDoc(collection(db, "rooms", "317", "messages"), {
+    addDoc(collection(db, "rooms", roomName, "messages"), {
         uid: uid,
         content: message,
         createdAt: Date.now(),
@@ -60,10 +60,10 @@ function ChatRoom(props) {
     const [user] = useAuthState(auth)
     const messages = useSelector(selectMessages)
     const dispatch = useDispatch()
+    const urlSearchParams = new URLSearchParams(window.location.search)
+    const params = Object.fromEntries(urlSearchParams.entries())
     useEffect(() => {
         dispatch(emptyMessages())
-        const urlSearchParams = new URLSearchParams(window.location.search)
-        const params = Object.fromEntries(urlSearchParams.entries())
         const q2 = query(collection(db, "rooms", params.room, "messages"), orderBy("createdAt", "desc"), limit(25))
         const unsubscribe = onSnapshot(q2, (querySnapshot) => {
             querySnapshot.docChanges().forEach((change) => {
@@ -78,7 +78,7 @@ function ChatRoom(props) {
 
     const inputSendMessage = message => {
         if (user) {
-            sendMessage(message, user.uid, user.photoURL)
+            sendMessage(message, params.room, user.uid, user.photoURL)
         }
     }
 

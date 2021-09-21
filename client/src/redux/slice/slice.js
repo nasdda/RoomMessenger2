@@ -35,5 +35,6 @@ export const {
 
 export const selectMessages = state => state.main.messages
 export const selectRoomName = state => state.main.roomName
+export const selectUsername = state => state.main.username
 
 export default slice.reducer
