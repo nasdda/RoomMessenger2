@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-
 import app from '../../../firebase/firebase'
-import { getAuth, signInWithPopup } from "firebase/auth";
-import { GoogleAuthProvider } from "firebase/auth";
 
+import { getAuth, signInWithPopup } from "firebase/auth"
+import { GoogleAuthProvider } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import GoogleButton from 'react-google-button'
@@ -16,7 +15,8 @@ import Fade from '@material-ui/core/Fade'
 import JoinRoom from './JoinRoom'
 
 
-const auth = getAuth();
+
+const auth = getAuth()
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,12 +26,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center"
     },
     front: {
-        height: "30rem",
+        height: "fit-content",
         width: "25rem",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        animation: "fadeIn 5s;"
+        padding: "3rem 0"
     },
     linkText: {
         textDecoration: "none",
@@ -39,10 +39,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
+
 function SignIn() {
     const signInWithGoogle = () => {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
+            .catch(error => {
+                console.log('error', error)
+            })
     }
     return (
         <GoogleButton
@@ -52,13 +57,13 @@ function SignIn() {
 }
 
 export default function FrontPage() {
-    const [user] = useAuthState(auth)
     const [username, setUsername] = useState("")
     const [roomName, setRoomName] = useState("")
+    const [user] = useAuthState(auth)
     const classes = useStyles()
 
     return (
-        <Fade in timeout={2000}>
+        <Fade in timeout={1500}>
             <div className={classes.root}>
                 <Paper elevation={5} className={classes.front}>
                     {user ?

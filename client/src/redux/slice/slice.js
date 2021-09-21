@@ -34,7 +34,6 @@ export const {
 } = slice.actions
 
 export const selectMessages = state => state.main.messages
-export const selectUsername = state => state.main.username
 export const selectRoomName = state => state.main.roomName
 
 export default slice.reducer

@@ -11,10 +11,14 @@ import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 import { setGlobalRoomName, setGlobalUsername } from '../../../redux/slice/slice'
 
+
 const useStyles = makeStyles((theme) => ({
     linkText: {
         textDecoration: "none",
         color: "inherit",
+    },
+    button: {
+        width: "10rem"
     }
 }));
 
@@ -29,6 +33,30 @@ function JoinRoom(props) {
     const history = useHistory()
 
     const dispatch = useDispatch()
+
+    const handleJoinRoom = () => {
+        const parsedUsername = username.trim()
+        const parsedRoomName = roomName.trim()
+        if (parsedUsername && usernameError.hasError) {
+            setUsernameError({
+                hasError: false
+            })
+        }
+        if (parsedRoomName && roomNameError.hasError) {
+            setRoomNameError({
+                hasError: false
+            })
+        }
+        if (parsedUsername) {
+            if (parsedRoomName) {
+                history.push(`/chatroom?room=${parsedRoomName}`)
+            } else {
+                setRoomNameError({ hasError: true, errorCause: "Room Name cannot be empty" })
+            }
+        } else {
+            setUsernameError({ hasError: true, errorCause: "Username cannot be empty" })
+        }
+    }
 
     return (
         <Grid
@@ -87,21 +115,10 @@ function JoinRoom(props) {
                             <Grid item>
                                 <div>
                                     <Button
+                                        className={classes.button}
                                         variant="contained"
                                         color={"primary"}
-                                        onClick={() => {
-                                            const parsedUsername = username.trim()
-                                            const parsedRoomName = roomName.trim()
-                                            if (parsedUsername) {
-                                                if (parsedRoomName) {
-                                                    history.push(`/chatroom?room=${parsedRoomName}`)
-                                                } else {
-                                                    setRoomNameError({ hasError: true, errorCause: "Room Name cannot be empty" })
-                                                }
-                                            } else {
-                                                setUsernameError({ hasError: true, errorCause: "Username cannot be empty" })
-                                            }
-                                        }}
+                                        onClick={handleJoinRoom}
                                         fullWidth>
                                         Join
                                     </Button>
@@ -109,8 +126,14 @@ function JoinRoom(props) {
                             </Grid>
                             <Grid item>
                                 <div>
-                                    <NavLink to="/chatroom" className={classes.linkText}>
-                                        <Button variant="contained" color={"primary"} fullWidth>
+                                    <NavLink
+                                        to="/room-creation"
+                                        className={classes.linkText}>
+                                        <Button
+                                            className={classes.button}
+                                            variant="contained"
+                                            color={"primary"}
+                                            fullWidth>
                                             Create Room
                                         </Button>
                                     </NavLink>

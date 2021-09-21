@@ -1,26 +1,25 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
-import { useAuthState } from 'react-firebase-hooks/auth'
+import app from '../../../firebase/firebase'
 
 import { makeStyles } from '@material-ui/core/styles'
-
 
 import ChatBox from './chat_box'
 import InputArea from './input_area'
 
-import app from '../../../firebase/firebase'
 import {
     collection, addDoc, getFirestore,
     query, getDocs, limit, doc,
     onSnapshot, orderBy
 } from "firebase/firestore"
-import { getAuth } from "firebase/auth"
 
-import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { Unsubscribe } from '@material-ui/icons'
-
-import { selectMessages, addMessage, emptyMessages } from '../../../redux/slice/slice'
+import {
+    selectMessages, addMessage, emptyMessages,
+} from '../../../redux/slice/slice'
 import { useDispatch, useSelector } from 'react-redux'
+
+import { getAuth } from "firebase/auth"
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,12 +55,12 @@ function sendMessage(message, uid, photoURL) {
 }
 
 
-function ChatRoom() {
+function ChatRoom(props) {
     const classes = useStyles()
     const [user] = useAuthState(auth)
     const messages = useSelector(selectMessages)
     const dispatch = useDispatch()
-
+    console.log(props.location.search)
     useEffect(() => {
         dispatch(emptyMessages())
         const q2 = query(collection(db, "rooms", "317", "messages"), orderBy("createdAt", "desc"), limit(25))
