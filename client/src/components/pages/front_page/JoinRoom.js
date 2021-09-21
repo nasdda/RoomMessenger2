@@ -8,9 +8,11 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
-import { useDispatch } from 'react-redux'
-import { setGlobalRoomName, setGlobalUsername } from '../../../redux/slice/slice'
+import {
+    collection, getFirestore, getDoc, limit, doc,
+} from "firebase/firestore"
 
+import encrypt from '../../../tools/encrypt'
 
 const useStyles = makeStyles((theme) => ({
     linkText: {
@@ -18,9 +20,11 @@ const useStyles = makeStyles((theme) => ({
         color: "inherit",
     },
     button: {
-        width: "10rem"
+        width: "10rem",
     }
 }));
+
+const db = getFirestore()
 
 
 function JoinRoom(props) {
@@ -31,8 +35,6 @@ function JoinRoom(props) {
 
     const classes = useStyles()
     const history = useHistory()
-
-    const dispatch = useDispatch()
 
     const handleJoinRoom = () => {
         const parsedUsername = username.trim()
@@ -49,14 +51,42 @@ function JoinRoom(props) {
         }
         if (parsedUsername) {
             if (parsedRoomName) {
-                history.push(`/chatroom?room=${parsedRoomName}`)
+                getDoc(doc(db, "rooms", parsedRoomName)).then(roomRef => {
+                    if (roomRef.exists()) {
+                        const roomPassword = roomRef.data().password
+                        if (roomPassword.length !== 0) {
+                            const enteredPassword = prompt("Joining this room requires a password.\nPassword:")
+                            if (encrypt(enteredPassword) !== roomPassword) {
+                                alert("Incorrect password.")
+                            } else {
+                                history.push(`/chatroom?room=${parsedRoomName}`)
+                            }
+                        } else {
+                            history.push(`/chatroom?room=${parsedRoomName}`)
+                        }
+                    } else {
+                        setRoomNameError({
+                            hasError: true,
+                            errorCause: "Failed to find room."
+                        })
+                    }
+                })
             } else {
-                setRoomNameError({ hasError: true, errorCause: "Room Name cannot be empty" })
+                setRoomNameError({
+                    hasError: true,
+                    errorCause: "Room Name cannot be empty"
+                })
             }
         } else {
-            setUsernameError({ hasError: true, errorCause: "Username cannot be empty" })
+            setUsernameError({
+                hasError: true,
+                errorCause: "Username cannot be empty"
+            })
         }
     }
+
+    const usernameLengthLimit = 20
+    const roomNameLengthLimit = 25
 
     return (
         <Grid
@@ -89,7 +119,9 @@ function JoinRoom(props) {
                             error={usernameError.hasError}
                             helperText={usernameError.hasError && usernameError.errorCause}
                             onChange={event => {
-                                setUsername(event.target.value)
+                                if (event.target.value.length <= usernameLengthLimit) {
+                                    setUsername(event.target.value)
+                                }
                             }}
                         />
                     </Grid>
@@ -103,7 +135,9 @@ function JoinRoom(props) {
                             error={roomNameError.hasError}
                             helperText={roomNameError.hasError && roomNameError.errorCause}
                             onChange={event => {
-                                setRoomName(event.target.value)
+                                if (event.target.value.length <= roomNameLengthLimit) {
+                                    setRoomName(event.target.value)
+                                }
                             }}
                         />
                     </Grid>
