@@ -5,9 +5,9 @@ import { createSlice } from '@reduxjs/toolkit'
 export const slice = createSlice({
     name: "main",
     initialState: {
-        username: "",
         roomName: "",
         messages: [],
+        usernames: {}
     },
     reducers: {
         addMessage: (state, action) => {
@@ -18,11 +18,17 @@ export const slice = createSlice({
         emptyMessages: (state) => {
             state.messages = []
         },
-        setGlobalUsername: (state, action) => {
-            state.username = action.payload.username
-        },
         setGlobalRoomName: (state, action) => {
             state.roomName = action.payload.roomName
+        },
+        emptyUsernames: (state) => {
+            state.usernames = {}
+        },
+        addUsername: (state, action) => {
+            state.usernames = {
+                ...state.usernames,
+                [action.payload.uid]: action.payload.username
+            }
         }
     }
 })
@@ -30,11 +36,11 @@ export const slice = createSlice({
 
 export const {
     addMessage, emptyMessages, setChatEndRef,
-    setGlobalRoomName, setGlobalUsername
+    setGlobalRoomName, addUsername
 } = slice.actions
 
 export const selectMessages = state => state.main.messages
 export const selectRoomName = state => state.main.roomName
-export const selectUsername = state => state.main.username
+export const selectUsernames = state => state.main.usernames
 
 export default slice.reducer

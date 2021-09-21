@@ -8,8 +8,12 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
+import { getAuth } from "firebase/auth"
+import { useAuthState } from 'react-firebase-hooks/auth'
+
 import {
-    collection, getFirestore, getDoc, limit, doc,
+    collection, getFirestore, getDoc,
+    doc, setDoc
 } from "firebase/firestore"
 
 import encrypt from '../../../tools/encrypt'
@@ -25,13 +29,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const db = getFirestore()
-
+const auth = getAuth()
 
 function JoinRoom(props) {
     const [roomNameError, setRoomNameError] = useState({ hasError: false, errorCause: "" })
     const [usernameError, setUsernameError] = useState({ hasError: false, errorCause: "" })
     const [roomName, setRoomName] = useState("")
     const [username, setUsername] = useState("")
+    const [user] = useAuthState(auth)
 
     const classes = useStyles()
     const history = useHistory()
@@ -49,6 +54,7 @@ function JoinRoom(props) {
                 hasError: false
             })
         }
+
         if (parsedUsername) {
             if (parsedRoomName) {
                 getDoc(doc(db, "rooms", parsedRoomName)).then(roomRef => {
@@ -58,17 +64,30 @@ function JoinRoom(props) {
                             const enteredPassword = prompt("Joining this room requires a password.\nPassword:")
                             if (encrypt(enteredPassword) !== roomPassword) {
                                 alert("Incorrect password.")
-                            } else {
-                                history.push(`/chatroom?room=${parsedRoomName}`)
+                                return
                             }
-                        } else {
-                            history.push(`/chatroom?room=${parsedRoomName}`)
                         }
+
+                        getDoc(doc(collection(db, "rooms", parsedRoomName, "users"), user.uid)).then(userDoc => {
+                            if (userDoc.exists()) {
+                                alert(`You are already in this room as: ${userDoc.data().username}`)
+                                history.push(`/chatroom?room=${parsedRoomName}`)
+                            } else {
+                                setDoc(doc(collection(db, "rooms", parsedRoomName, "users"), user.uid), {
+                                    username: parsedUsername,
+                                    isHost: false,
+                                    joinedAt: Date.now()
+                                }).then(() => {
+                                    history.push(`/chatroom?room=${parsedRoomName}`)
+                                })
+                            }
+                        })
                     } else {
                         setRoomNameError({
                             hasError: true,
                             errorCause: "Failed to find room."
                         })
+                        return
                     }
                 })
             } else {
@@ -76,13 +95,17 @@ function JoinRoom(props) {
                     hasError: true,
                     errorCause: "Room Name cannot be empty"
                 })
+                return
             }
         } else {
             setUsernameError({
                 hasError: true,
                 errorCause: "Username cannot be empty"
             })
+            return
         }
+
+        history.push(`/chatroom?room=${parsedRoomName}`)
     }
 
     const usernameLengthLimit = 20

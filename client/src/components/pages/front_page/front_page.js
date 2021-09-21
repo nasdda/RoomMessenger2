@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
+// eslint-disable-next-line no-unused-vars
 import app from '../../../firebase/firebase'
 
 import { getAuth, signInWithPopup } from "firebase/auth"
