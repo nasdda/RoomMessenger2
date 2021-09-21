@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import app from '../../../firebase/firebase'
@@ -46,7 +46,7 @@ function SignIn() {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
             .catch(error => {
-                console.log('error', error)
+                alert("Failed to sign in.")
             })
     }
     return (
@@ -57,8 +57,6 @@ function SignIn() {
 }
 
 export default function FrontPage() {
-    const [username, setUsername] = useState("")
-    const [roomName, setRoomName] = useState("")
     const [user] = useAuthState(auth)
     const classes = useStyles()
 
@@ -68,10 +66,7 @@ export default function FrontPage() {
                 <Paper elevation={5} className={classes.front}>
                     {user ?
                         <JoinRoom
-                            username={username}
-                            setUsername={setUsername}
-                            roomName={roomName}
-                            setRoomName={setRoomName}
+                            uid={user.uid}
                         /> : <SignIn />}
                 </Paper>
             </div>

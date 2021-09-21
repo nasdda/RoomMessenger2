@@ -60,10 +60,11 @@ function ChatRoom(props) {
     const [user] = useAuthState(auth)
     const messages = useSelector(selectMessages)
     const dispatch = useDispatch()
-    console.log(props.location.search)
     useEffect(() => {
         dispatch(emptyMessages())
-        const q2 = query(collection(db, "rooms", "317", "messages"), orderBy("createdAt", "desc"), limit(25))
+        const urlSearchParams = new URLSearchParams(window.location.search)
+        const params = Object.fromEntries(urlSearchParams.entries())
+        const q2 = query(collection(db, "rooms", params.room, "messages"), orderBy("createdAt", "desc"), limit(25))
         const unsubscribe = onSnapshot(q2, (querySnapshot) => {
             querySnapshot.docChanges().forEach((change) => {
                 if (change.type === "added") {
