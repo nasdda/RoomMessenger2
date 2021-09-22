@@ -1,5 +1,5 @@
 import './App.css';
-import { createTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles'
+import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 import Router from './router/router'
 
 const theme = createTheme({
