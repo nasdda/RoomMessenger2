@@ -16,7 +16,7 @@ import {
 
 import {
     selectMessages, addMessage, emptyMessages,
-    addUsername
+    addUsername, emptyUsernames
 } from '../../../redux/slice/slice'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -66,26 +66,35 @@ function ChatRoomContents(props) {
     const params = Object.fromEntries(urlSearchParams.entries())
 
     useEffect(() => {
+        dispatch(emptyUsernames())
         dispatch(emptyMessages())
-        const q = query(collection(db, "rooms", params.room, "users"));
-        getDocs(q).then(usernameDocs => {
-            usernameDocs.forEach(doc => {
-                dispatch(addUsername({
-                    uid: doc.id,
-                    username: doc.data().username
-                }))
+
+        const q1 = query(collection(db, "rooms", params.room, "users"), orderBy("joinedAt", "desc"))
+        const unsubscribeUsers = onSnapshot(q1, (usersQuerySnapshot) => {
+            usersQuerySnapshot.docChanges().forEach(userChange => {
+                if (userChange.type === "added") {
+                    console.log(userChange.doc.id, userChange.doc.data().username)
+                    dispatch(addUsername({
+                        uid: userChange.doc.id,
+                        username: userChange.doc.data().username
+                    }))
+                }
             })
         })
 
         const q2 = query(collection(db, "rooms", params.room, "messages"), orderBy("createdAt", "desc"), limit(25))
-        const unsubscribe = onSnapshot(q2, (querySnapshot) => {
-            querySnapshot.docChanges().forEach((change) => {
-                if (change.type === "added") {
-                    dispatch(addMessage({ message: change.doc }))
+        const unsubscribeMessages = onSnapshot(q2, (messagesQuerySnapshot) => {
+            messagesQuerySnapshot.docChanges().forEach((messageChange) => {
+                if (messageChange.type === "added") {
+                    dispatch(addMessage({ message: messageChange.doc }))
                 }
             })
         })
-        return (() => { unsubscribe() })
+
+        return (() => {
+            unsubscribeUsers()
+            unsubscribeMessages()
+        })
     }, []);
 
     const inputSendMessage = message => {

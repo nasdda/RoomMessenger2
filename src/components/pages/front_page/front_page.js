@@ -47,9 +47,7 @@ function SignIn() {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
             .catch(error => {
-                if (error.code !== "auth/popup-closed-by-user") {
-                    alert("Error when signing in: \n", error.code)
-                }
+                console.log(error)
             })
     }
     return (

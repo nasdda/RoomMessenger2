@@ -36,7 +36,7 @@ export const slice = createSlice({
 
 export const {
     addMessage, emptyMessages, setChatEndRef,
-    setGlobalRoomName, addUsername
+    setGlobalRoomName, addUsername, emptyUsernames
 } = slice.actions
 
 export const selectMessages = state => state.main.messages

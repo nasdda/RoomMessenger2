@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react'
 import ChatRoomContents from './chat_room_contents'
 
 import {
-    collection, addDoc, getFirestore,
-    query, getDocs, limit, getDoc,
-    onSnapshot, orderBy, doc
+    collection, getFirestore,
+    getDoc, doc
 } from "firebase/firestore"
 
 import { getAuth } from "firebase/auth"
@@ -29,10 +28,10 @@ function ChatRoom() {
                 history.push("/")
             } else {
                 getDoc(doc(collection(db, "rooms", params.room, "users"), user.uid)).then(userDoc => {
-                    if(!userDoc.exists()){
+                    if (!userDoc.exists()) {
                         alert("You have not joined this room.")
                         history.push("/")
-                    } else{
+                    } else {
                         setVerified(true)
                     }
                 })
