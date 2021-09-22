@@ -104,8 +104,6 @@ function JoinRoom(props) {
             })
             return
         }
-
-        history.push(`/chatroom?room=${parsedRoomName}`)
     }
 
     const usernameLengthLimit = 20
