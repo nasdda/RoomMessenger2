@@ -15,6 +15,8 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector } from 'react-redux'
 import { selectUsernames } from '../../../redux/slice/slice'
 
+import { Typography } from '@material-ui/core'
+
 
 const useStyles = makeStyles(theme => ({
     isOthers: {
@@ -58,6 +60,29 @@ const useStyles = makeStyles(theme => ({
     },
     rightAvatar: {
         marginLeft: "0.4rem"
+    },
+    smallUsername: {
+        fontSize: "0.6rem",
+        margin: "0",
+        color: "grey",
+    },
+    userNMMargin: {
+        marginRight: "1rem"
+    },
+    otherNMMargin: {
+        marginLeft: "1rem"
+    },
+    userNameMessageContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        justifyContent: "flex-end"
+    },
+    otherNameMessageContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "flex-end"
     }
 }))
 
@@ -73,22 +98,15 @@ function ChatContent(props) {
     const Avatar = (avatarProps) => {
         return (
             <>
-                <Tooltip
-                    title={usernames[props.uid] || "N/A"}
-                    placement="bottom"
-                    arrow
-                >
-                    {props.photoURL ?
-                        <img
-                            src={props.photoURL}
-                            className={`${classes.avatarIcon} ${avatarProps.className}`}
-                            alt="avatar" /> :
-                        <img
-                            className={`${classes.avatarIcon} ${avatarProps.className}`}
-                            src="http://www.drumall.com/shop/img/member_no_img.gif"
-                            alt="avatar" />}
-                </Tooltip>
-
+                {props.photoURL ?
+                    <img
+                        src={props.photoURL}
+                        className={`${classes.avatarIcon} ${avatarProps.className}`}
+                        alt="avatar" /> :
+                    <img
+                        className={`${classes.avatarIcon} ${avatarProps.className}`}
+                        src="http://www.drumall.com/shop/img/member_no_img.gif"
+                        alt="avatar" />}
             </>
         )
     }
@@ -107,17 +125,23 @@ function ChatContent(props) {
             {!(user && props.uid === user.uid) &&
                 <Avatar className={classes.leftAvatar} />
             }
-            <Tooltip
-                title={parsedDate}
-                placement={"bottom"}
-                arrow
-            >
-                <div className={(user && props.uid === user.uid) ?
-                    classes.userContainer :
-                    classes.othersContainer}>
-                    {props.message}
-                </div>
-            </Tooltip>
+            <div className={(user && props.uid === user.uid) ? classes.userNameMessageContainer : classes.otherNameMessageContainer}>
+                <p className={`${classes.smallUsername} ${(user && props.uid === user.uid) ? classes.userNMMargin : classes.otherNMMargin}`}>
+                    {usernames[props.uid] || ""}
+                </p>
+                <Tooltip
+                    title={parsedDate}
+                    placement={"bottom"}
+                    arrow
+                >
+                    <div className={(user && props.uid === user.uid) ?
+                        classes.userContainer :
+                        classes.othersContainer}>
+                        {props.message}
+                    </div>
+                </Tooltip>
+            </div>
+
             {(user && props.uid === user.uid) &&
                 <Avatar className={classes.rightAvatar} />
             }
