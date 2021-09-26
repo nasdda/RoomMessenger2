@@ -70,10 +70,10 @@ const useStyles = makeStyles(theme => ({
         color: "grey",
     },
     userNMMargin: {
-        marginRight: "1rem"
+        marginRight: "0.5rem"
     },
     otherNMMargin: {
-        marginLeft: "1rem"
+        marginLeft: "0.5rem"
     },
     userNameMessageContainer: {
         display: "flex",

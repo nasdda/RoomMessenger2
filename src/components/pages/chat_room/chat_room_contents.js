@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 // eslint-disable-next-line no-unused-vars
 import app from '../../../firebase/firebase'
@@ -10,7 +10,7 @@ import InputArea from './input_area'
 
 import {
     collection, addDoc, getFirestore,
-    query, getDocs, limit,
+    query, limit,
     onSnapshot, orderBy,
 } from "firebase/firestore"
 
@@ -23,7 +23,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAuth } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import Notification from './notification'
 
 
 const useStyles = makeStyles((theme) => ({
