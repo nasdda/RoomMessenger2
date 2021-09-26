@@ -10,7 +10,7 @@ import {
 
 import {
     doc, setDoc, getDoc,
-    getFirestore, collection
+    getFirestore, collection, addDoc
 } from "firebase/firestore"
 
 import encrypt from '../../../tools/encrypt'
@@ -34,6 +34,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const db = getFirestore()
+
+function sendMessage(info) {
+    info.message.trim()
+    if (!info.message)
+        return
+    addDoc(collection(db, "rooms", info.roomName, "messages"), {
+        uid: info.uid,
+        content: info.message,
+        createdAt: info.time,
+        photoURL: info.photoURL,
+        type: info.type
+    })
+}
+
 async function handleRoomCreation(config, history) {
     if (!config.hostUid) {
         alert("Please sign in.")
@@ -53,14 +67,25 @@ async function handleRoomCreation(config, history) {
                 await setDoc(grettingDoc, {
                     content: `Welcome to ${config.roomName}`,
                     uid: "---",
-                    createdAt: Date.now()
+                    createdAt: Date.now(),
+                    type: "notification"
                 })
 
                 const userDoc = doc(collection(db, "rooms", config.roomName, "users"), config.hostUid)
+                const time = Date.now()
                 await setDoc(userDoc, {
                     username: config.hostName,
                     isHost: true,
-                    joinedAt: Date.now()
+                    joinedAt:time
+                })
+
+                sendMessage({
+                    type: "notification",
+                    message: `${config.hostName} has joined!`,
+                    roomName: config.roomName,
+                    uid: config.hostUid,
+                    photoURL: null,
+                    time: time
                 })
 
                 history.push(`/chatroom?room=${config.roomName}`)

@@ -23,6 +23,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAuth } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
 
+import Notification from './notification'
+
 
 const useStyles = makeStyles((theme) => ({
     outerContainer: {
@@ -44,15 +46,16 @@ const useStyles = makeStyles((theme) => ({
 const auth = getAuth()
 const db = getFirestore()
 
-function sendMessage(message, roomName, uid, photoURL) {
-    message.trim()
-    if (!message)
+function sendMessage(info) {
+    info.message.trim()
+    if (!info.message)
         return
-    addDoc(collection(db, "rooms", roomName, "messages"), {
-        uid: uid,
-        content: message,
-        createdAt: Date.now(),
-        photoURL: photoURL
+    addDoc(collection(db, "rooms", info.roomName, "messages"), {
+        uid: info.uid,
+        content: info.message,
+        createdAt: info.time,
+        photoURL: info.photoURL,
+        type: info.type
     })
 }
 
@@ -76,7 +79,7 @@ function ChatRoomContents(props) {
                     console.log(userChange.doc.id, userChange.doc.data().username)
                     dispatch(addUsername({
                         uid: userChange.doc.id,
-                        username: userChange.doc.data().username
+                        username: userChange.doc.data().username,
                     }))
                 }
             })
@@ -99,7 +102,15 @@ function ChatRoomContents(props) {
 
     const inputSendMessage = message => {
         if (user) {
-            sendMessage(message, params.room, user.uid, user.photoURL)
+
+            sendMessage({
+                type: "message",
+                message: message,
+                roomName: params.room,
+                uid: user.uid,
+                photoURL: user.photoURL,
+                time: Date.now()
+            })
         }
     }
 

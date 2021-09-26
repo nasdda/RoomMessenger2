@@ -13,7 +13,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import {
     collection, getFirestore, getDoc,
-    doc, setDoc
+    doc, setDoc, addDoc
 } from "firebase/firestore"
 
 import encrypt from '../../../tools/encrypt'
@@ -30,6 +30,19 @@ const useStyles = makeStyles((theme) => ({
 
 const db = getFirestore()
 const auth = getAuth()
+
+function sendMessage(info) {
+    info.message.trim()
+    if (!info.message)
+        return
+    addDoc(collection(db, "rooms", info.roomName, "messages"), {
+        uid: info.uid,
+        content: info.message,
+        createdAt: info.time,
+        photoURL: info.photoURL,
+        type: info.type
+    })
+}
 
 function JoinRoom(props) {
     const [roomNameError, setRoomNameError] = useState({ hasError: false, errorCause: "" })
@@ -78,6 +91,14 @@ function JoinRoom(props) {
                                     isHost: false,
                                     joinedAt: Date.now()
                                 }).then(() => {
+                                    sendMessage({
+                                        type: "notification",
+                                        message: `${parsedUsername} has joined!`,
+                                        roomName: roomName,
+                                        uid: user.uid,
+                                        photoURL: null,
+                                        time: Date.now()
+                                    })
                                     history.push(`/chatroom?room=${parsedRoomName}`)
                                 })
                             }
