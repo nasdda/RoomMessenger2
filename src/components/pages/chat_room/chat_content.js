@@ -40,7 +40,10 @@ const useStyles = makeStyles(theme => ({
         width: "fit-content",
         maxWidth: "25rem",
         padding: "0.3rem 0.8rem",
-        borderRadius: "1rem"
+        borderRadius: "1rem",
+        wordWrap: "break-word",
+        overflowWrap: "break-word",
+        hyphens: "auto"
 
     },
     othersContainer: {
