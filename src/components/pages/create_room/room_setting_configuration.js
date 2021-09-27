@@ -27,6 +27,8 @@ function RoomSettingConfiguration(props) {
     const [roomName, setRoomName] = useState("")
     const [hostName, setHostName] = useState("")
     const [password, setPassword] = useState("")
+    const [roomNameError, setRoomNameError] = useState({ hasError: false })
+    const [hostNameError, setHostNameError] = useState({ hasError: false })
     const [loading, setLoading] = useState(false)
     const [user] = useAuthState(auth)
     const classes = useStyles()
@@ -58,6 +60,8 @@ function RoomSettingConfiguration(props) {
                         >
                             <Grid item>
                                 <TextField
+                                    error={roomNameError.hasError}
+                                    helperText={roomNameError.cause}
                                     label="Room Name"
                                     variant="outlined"
                                     type="text"
@@ -69,6 +73,8 @@ function RoomSettingConfiguration(props) {
                             </Grid>
                             <Grid item>
                                 <TextField
+                                    error={hostNameError.hasError}
+                                    helperText={hostNameError.cause}
                                     label="Host Name"
                                     variant="outlined"
                                     type="text"
@@ -104,13 +110,43 @@ function RoomSettingConfiguration(props) {
                                             color={"primary"}
                                             fullWidth
                                             onClick={() => {
+                                                const parsedRoomName = roomName.trim()
+                                                const parsedHostName = hostName.trim()
+                                                if (parsedRoomName === "") {
+                                                    setRoomNameError({
+                                                        hasError: true,
+                                                        cause: "Room Name cannot be empty."
+                                                    })
+                                                    return
+                                                } else {
+                                                    setRoomNameError({
+                                                        hasError: false
+                                                    })
+                                                }
+
+                                                if (parsedHostName === "") {
+                                                    setHostNameError({
+                                                        hasError: true,
+                                                        cause: "Host Name cannot be empty."
+                                                    })
+                                                    return
+                                                } else{
+                                                    setHostNameError({
+                                                        hasError: false
+                                                    })
+                                                }
+
                                                 setLoading(true)
                                                 props.handleRoomCreation({
                                                     roomName: roomName,
                                                     hostName: hostName,
                                                     password: password,
                                                     hostUid: user.uid,
-                                                }, history)
+                                                }, history).then(result => {
+                                                    if(result === "error"){
+                                                        setLoading(false)
+                                                    }
+                                                })
                                             }}
                                         >
                                             Create

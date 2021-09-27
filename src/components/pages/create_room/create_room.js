@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import RoomSettingConfiguration from './room_setting_configuration'
 
@@ -49,14 +49,17 @@ function sendMessage(info) {
 }
 
 async function handleRoomCreation(config, history) {
+    config.roomName = config.roomName.trim()
+    config.hostName = config.hostName.trim()
     if (!config.hostUid) {
         alert("Please sign in.")
         history.push('/')
     }
-    else if (config.roomName) {
+    else if (config.roomName !== "") {
         const roomRef = await getDoc(doc(db, "rooms", config.roomName))
         if (roomRef.exists()) {
             alert("Room Name is taken.")
+            return "error"
         } else {
             try {
                 await setDoc(doc(db, "rooms", config.roomName), {
@@ -76,7 +79,7 @@ async function handleRoomCreation(config, history) {
                 await setDoc(userDoc, {
                     username: config.hostName,
                     isHost: true,
-                    joinedAt:time
+                    joinedAt: time
                 })
 
                 sendMessage({
