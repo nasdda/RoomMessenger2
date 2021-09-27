@@ -94,6 +94,7 @@ async function handleRoomCreation(config, history) {
                 history.push(`/chatroom?room=${config.roomName}`)
             } catch (error) {
                 alert("Error when creating room.")
+                return "error"
             }
         }
     }
