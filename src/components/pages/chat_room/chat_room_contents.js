@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import ChatBox from './chat_box'
 import InputArea from './input_area'
+import AppBar from './app_bar'
 
 import {
     collection, addDoc, getFirestore,
@@ -115,6 +116,7 @@ function ChatRoomContents(props) {
 
     return (
         <div className={classes.outerContainer}>
+            <AppBar roomName={params.room} />
             <div className={classes.chat}>
                 <ChatBox
                     docs={messages}

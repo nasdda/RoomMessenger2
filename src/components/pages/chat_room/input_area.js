@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     emojiButton: {
         height: "1rem",
         width: "1rem",
-        borderRadius: "1rem",
+        borderRadius: "50%",
         fontSize: "1rem",
         padding: "0.5rem"
     },

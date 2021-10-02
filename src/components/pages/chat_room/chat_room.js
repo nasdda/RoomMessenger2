@@ -42,9 +42,7 @@ function ChatRoom() {
 
     return (
         <>
-            {verified &&
-                <ChatRoomContents />
-            }
+            {verified && <ChatRoomContents />}
         </>
     )
 }

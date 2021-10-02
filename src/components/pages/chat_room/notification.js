@@ -32,4 +32,4 @@ function Notification(props) {
 }
 
 
-export default Notification;
+export default React.memo(Notification);
