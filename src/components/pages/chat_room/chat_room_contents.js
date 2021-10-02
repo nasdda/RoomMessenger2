@@ -85,7 +85,7 @@ function ChatRoomContents(props) {
             })
         })
 
-        const q2 = query(collection(db, "rooms", params.room, "messages"), orderBy("createdAt", "desc"), limit(25))
+        const q2 = query(collection(db, "rooms", params.room, "messages"))
         const unsubscribeMessages = onSnapshot(q2, (messagesQuerySnapshot) => {
             messagesQuerySnapshot.docChanges().forEach((messageChange) => {
                 if (messageChange.type === "added") {
