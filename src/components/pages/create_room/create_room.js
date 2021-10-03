@@ -79,7 +79,8 @@ async function handleRoomCreation(config, history) {
                 await setDoc(userDoc, {
                     username: config.hostName,
                     isHost: true,
-                    joinedAt: time
+                    joinedAt: time,
+                    photoURL: config.photoURL
                 })
 
                 sendMessage({

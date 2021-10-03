@@ -7,7 +7,7 @@ export const slice = createSlice({
     initialState: {
         roomName: "",
         messages: [],
-        usernames: {}
+        userInfos: {}
     },
     reducers: {
         addMessage: (state, action) => {
@@ -24,10 +24,14 @@ export const slice = createSlice({
         emptyUsernames: (state) => {
             state.usernames = {}
         },
-        addUsername: (state, action) => {
-            state.usernames = {
-                ...state.usernames,
-                [action.payload.uid]: action.payload.username
+        addUserinfo: (state, action) => {
+            state.userInfos = {
+                ...state.userInfos,
+                [action.payload.uid]: {
+                    username: action.payload.username,
+                    photoURL: action.payload.photoURL,
+                    isHost: action.payload.isHost
+                }
             }
         }
     }
@@ -36,11 +40,11 @@ export const slice = createSlice({
 
 export const {
     addMessage, emptyMessages, setChatEndRef,
-    setGlobalRoomName, addUsername, emptyUsernames
+    setGlobalRoomName, addUserinfo, emptyUsernames
 } = slice.actions
 
 export const selectMessages = state => state.main.messages
 export const selectRoomName = state => state.main.roomName
-export const selectUsernames = state => state.main.usernames
+export const selectUserInfos = state => state.main.userInfos
 
 export default slice.reducer

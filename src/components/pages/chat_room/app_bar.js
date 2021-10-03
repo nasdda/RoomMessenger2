@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { Toolbar, Typography, IconButton, ToolbarGroup } from '@material-ui/core'
+import { Toolbar, Typography, IconButton } from '@material-ui/core'
 import Bar from '@material-ui/core/AppBar'
-import MenuIcon from '@material-ui/icons/Menu'
+import UsersIcon from '@material-ui/icons/Group'
 import { makeStyles } from '@material-ui/core/styles'
+import Sidebar from './sidebar'
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -23,26 +24,32 @@ const useStyles = makeStyles((theme) => ({
 
 
 function AppBar(props) {
+    const [open, setOpen] = useState(false);
     const classes = useStyles()
 
     return (
         <Bar position="static" className={classes.appbar}>
+            <Sidebar
+                open={open}
+                setOpen={setOpen}
+            />
             <Toolbar className={classes.toolbar}>
-                <div classname={classes.toolbarItem}>
+                <div className={classes.toolbarItem}>
                     <IconButton
                         edge="start"
                         color="inherit"
                         aria-label="menu"
                         className={classes.emojiButton}
                         component="span"
+                        onClick={() => setOpen(!open)}
                     >
-                        <MenuIcon />
+                        <UsersIcon />
                     </IconButton>
                 </div>
                 <div className={classes.toolbarItem}>
-                    <Typography variant="h7" color="inherit" component="div">
+                    <div>
                         {props.roomName}
-                    </Typography>
+                    </div>
                 </div>
                 <div className={classes.toolbarItem} />
             </Toolbar>

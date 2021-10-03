@@ -13,9 +13,8 @@ import { getAuth } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { useSelector } from 'react-redux'
-import { selectUsernames } from '../../../redux/slice/slice'
+import { selectUserInfos } from '../../../redux/slice/slice'
 
-import { Typography } from '@material-ui/core'
 
 
 const useStyles = makeStyles(theme => ({
@@ -94,7 +93,7 @@ const auth = getAuth()
 
 function ChatContent(props) {
     const [user] = useAuthState(auth)
-    const usernames = useSelector(selectUsernames)
+    const userInfos = useSelector(selectUserInfos)
 
     const classes = useStyles()
 
@@ -130,7 +129,7 @@ function ChatContent(props) {
             }
             <div className={(user && props.uid === user.uid) ? classes.userNameMessageContainer : classes.otherNameMessageContainer}>
                 <p className={`${classes.smallUsername} ${(user && props.uid === user.uid) ? classes.userNMMargin : classes.otherNMMargin}`}>
-                    {usernames[props.uid] || ""}
+                    {userInfos[props.uid].username || ""}
                 </p>
                 <Tooltip
                     title={parsedDate}

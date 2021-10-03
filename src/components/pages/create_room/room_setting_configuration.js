@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 const auth = getAuth()
 
+const max_username_length = 25
+const max_room_name_length = 30
+
 function RoomSettingConfiguration(props) {
     const [roomName, setRoomName] = useState("")
     const [hostName, setHostName] = useState("")
@@ -67,7 +70,11 @@ function RoomSettingConfiguration(props) {
                                     type="text"
                                     size="small"
                                     value={roomName}
-                                    onChange={event => setRoomName(event.target.value)}
+                                    onChange={event => {
+                                        if (event.target.value.length <= max_room_name_length) {
+                                            setRoomName(event.target.value)
+                                        }
+                                    }}
                                     required
                                 />
                             </Grid>
@@ -80,7 +87,11 @@ function RoomSettingConfiguration(props) {
                                     type="text"
                                     size="small"
                                     value={hostName}
-                                    onChange={event => setHostName(event.target.value)}
+                                    onChange={event => {
+                                        if (event.target.value.length <= max_username_length) {
+                                            setHostName(event.target.value)
+                                        }
+                                    }}
                                     required
                                 />
                             </Grid>
@@ -130,7 +141,7 @@ function RoomSettingConfiguration(props) {
                                                         cause: "Host Name cannot be empty."
                                                     })
                                                     return
-                                                } else{
+                                                } else {
                                                     setHostNameError({
                                                         hasError: false
                                                     })
@@ -142,8 +153,9 @@ function RoomSettingConfiguration(props) {
                                                     hostName: hostName,
                                                     password: password,
                                                     hostUid: user.uid,
+                                                    photoURL: user.photoURL
                                                 }, history).then(result => {
-                                                    if(result === "error"){
+                                                    if (result === "error") {
                                                         setLoading(false)
                                                     }
                                                 })

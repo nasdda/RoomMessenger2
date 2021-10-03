@@ -17,7 +17,7 @@ import {
 
 import {
     selectMessages, addMessage, emptyMessages,
-    addUsername, emptyUsernames
+    addUserinfo, emptyUsernames, addUser
 } from '../../../redux/slice/slice'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -76,10 +76,9 @@ function ChatRoomContents(props) {
         const unsubscribeUsers = onSnapshot(q1, (usersQuerySnapshot) => {
             usersQuerySnapshot.docChanges().forEach(userChange => {
                 if (userChange.type === "added") {
-                    console.log(userChange.doc.id, userChange.doc.data().username)
-                    dispatch(addUsername({
+                    dispatch(addUserinfo({
                         uid: userChange.doc.id,
-                        username: userChange.doc.data().username,
+                        ...userChange.doc.data()
                     }))
                 }
             })
@@ -102,7 +101,6 @@ function ChatRoomContents(props) {
 
     const inputSendMessage = message => {
         if (user) {
-
             sendMessage({
                 type: "message",
                 message: message,

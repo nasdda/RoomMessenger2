@@ -89,7 +89,8 @@ function JoinRoom(props) {
                                 setDoc(doc(collection(db, "rooms", parsedRoomName, "users"), user.uid), {
                                     username: parsedUsername,
                                     isHost: false,
-                                    joinedAt: Date.now()
+                                    joinedAt: Date.now(),
+                                    photoURL: user.photoURL
                                 }).then(() => {
                                     sendMessage({
                                         type: "notification",
@@ -127,8 +128,8 @@ function JoinRoom(props) {
         }
     }
 
-    const usernameLengthLimit = 20
-    const roomNameLengthLimit = 25
+    const usernameLengthLimit = 25
+    const roomNameLengthLimit = 30
 
     return (
         <Grid
