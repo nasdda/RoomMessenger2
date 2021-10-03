@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Toolbar, Typography, IconButton } from '@material-ui/core'
+import { Toolbar, IconButton } from '@material-ui/core'
 import Bar from '@material-ui/core/AppBar'
 import UsersIcon from '@material-ui/icons/Group'
 import { makeStyles } from '@material-ui/core/styles'

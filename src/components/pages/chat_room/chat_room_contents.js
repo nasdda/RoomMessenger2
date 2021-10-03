@@ -11,13 +11,12 @@ import AppBar from './app_bar'
 
 import {
     collection, addDoc, getFirestore,
-    query, limit,
-    onSnapshot, orderBy,
+    query, onSnapshot, orderBy,
 } from "firebase/firestore"
 
 import {
     selectMessages, addMessage, emptyMessages,
-    addUserinfo, emptyUsernames, addUser
+    addUserinfo, emptyUsernames, 
 } from '../../../redux/slice/slice'
 import { useDispatch, useSelector } from 'react-redux'
 

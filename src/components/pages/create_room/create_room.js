@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import RoomSettingConfiguration from './room_setting_configuration'
 

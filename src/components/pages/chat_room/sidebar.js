@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core'
 
 import {
@@ -9,10 +9,24 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
 
 import { useSelector } from 'react-redux'
-import { selectUserInfos, selectUsers } from '../../../redux/slice/slice'
+import { selectUserInfos } from '../../../redux/slice/slice'
 
 
 const drawerWidth = "17rem"
+
+function useOutsideAlerter(ref, setToggle) {
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setToggle(false)
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -110,9 +124,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Sidebar(props) {
+    const ref = useRef(null)
     const userInfos = useSelector(selectUserInfos)
-    console.log(userInfos)
     const classes = useStyles()
+    useOutsideAlerter(ref, props.setOpen)
     let host = undefined
     const members = []
     for (const uid in userInfos) {
@@ -155,6 +170,7 @@ function Sidebar(props) {
     return (
         <div>
             <Drawer
+                ref={ref}
                 className={classes.drawer}
                 variant="persistent"
                 anchor="left"
