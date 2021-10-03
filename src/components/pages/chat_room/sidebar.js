@@ -120,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
         overflow: "hidden",
         whiteSpace: "no-wrap",
         textOverflow: "ellipsis",
+        marginBottom: "0.5rem"
     }
 }));
 

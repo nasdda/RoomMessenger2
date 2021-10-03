@@ -146,19 +146,23 @@ function RoomSettingConfiguration(props) {
                                                         hasError: false
                                                     })
                                                 }
-
-                                                setLoading(true)
-                                                props.handleRoomCreation({
-                                                    roomName: roomName,
-                                                    hostName: hostName,
-                                                    password: password,
-                                                    hostUid: user.uid,
-                                                    photoURL: user.photoURL
-                                                }, history).then(result => {
-                                                    if (result === "error") {
-                                                        setLoading(false)
-                                                    }
-                                                })
+                                                if (!user) {
+                                                    alert("Please login first.")
+                                                    history.push('/')
+                                                } else {
+                                                    setLoading(true)
+                                                    props.handleRoomCreation({
+                                                        roomName: roomName,
+                                                        hostName: hostName,
+                                                        password: password,
+                                                        hostUid: user.uid,
+                                                        photoURL: user.photoURL
+                                                    }, history).then(result => {
+                                                        if (result === "error") {
+                                                            setLoading(false)
+                                                        }
+                                                    })
+                                                }
                                             }}
                                         >
                                             Create
