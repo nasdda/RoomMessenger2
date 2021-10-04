@@ -21,9 +21,6 @@ export const slice = createSlice({
         setGlobalRoomName: (state, action) => {
             state.roomName = action.payload.roomName
         },
-        emptyUsernames: (state) => {
-            state.usernames = {}
-        },
         addUserinfo: (state, action) => {
             state.userInfos = {
                 ...state.userInfos,
@@ -43,8 +40,7 @@ export const slice = createSlice({
 
 export const {
     addMessage, emptyMessages, setChatEndRef,
-    setGlobalRoomName, addUserinfo, emptyUsernames,
-    emptyUserInfo
+    setGlobalRoomName, addUserinfo, emptyUserInfo
 } = slice.actions
 
 export const selectMessages = state => state.main.messages

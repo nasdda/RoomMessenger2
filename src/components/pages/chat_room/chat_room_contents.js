@@ -16,7 +16,7 @@ import {
 
 import {
     selectMessages, addMessage, emptyMessages,
-    addUserinfo, emptyUsernames, emptyUserInfo
+    addUserinfo, emptyUserInfo
 } from '../../../redux/slice/slice'
 import { useDispatch, useSelector } from 'react-redux'
 
