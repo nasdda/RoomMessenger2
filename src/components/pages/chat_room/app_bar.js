@@ -18,7 +18,11 @@ const useStyles = makeStyles((theme) => ({
         padding: "0.5rem",
     },
     toolbarItem: {
-        width: "1.5rem"
+        width: "1.5rem",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: 'center'
     }
 }));
 

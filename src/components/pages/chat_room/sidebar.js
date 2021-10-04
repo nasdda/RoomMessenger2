@@ -215,7 +215,6 @@ function Sidebar(props) {
                 </div>
                 <div className={classes.membersList}>
                     {displayMembers}
-
                 </div>
             </Drawer >
         </div >
