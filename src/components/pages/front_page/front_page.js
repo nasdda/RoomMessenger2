@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 // eslint-disable-next-line no-unused-vars
@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper'
 import Fade from '@material-ui/core/Fade'
 
 import JoinRoom from './JoinRoom'
+import { CircularProgress } from '@material-ui/core'
 
 
 
@@ -59,15 +60,28 @@ function SignIn() {
 
 export default function FrontPage() {
     const [user] = useAuthState(auth)
+    const [loading, setLoading] = useState(true)
     const classes = useStyles()
+
+    auth.onAuthStateChanged(returnedUser => {
+        setLoading(false)
+    })
+
+    let Display = () => <CircularProgress />
+
+    if(!loading){
+        if(user){
+            Display = () => <JoinRoom uid={user.uid} />
+        } else{
+            Display = () => <SignIn />
+        }
+    }
+
     return (
         <Fade in timeout={1500}>
             <div className={classes.root}>
                 <Paper elevation={5} className={classes.front}>
-                    {user ?
-                        <JoinRoom
-                            uid={user.uid}
-                        /> : <SignIn />}
+                    <Display />
                 </Paper>
             </div>
         </Fade>
