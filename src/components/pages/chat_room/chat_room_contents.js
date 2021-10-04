@@ -16,7 +16,7 @@ import {
 
 import {
     selectMessages, addMessage, emptyMessages,
-    addUserinfo, emptyUsernames, 
+    addUserinfo, emptyUsernames, emptyUserInfo
 } from '../../../redux/slice/slice'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -70,6 +70,7 @@ function ChatRoomContents(props) {
     useEffect(() => {
         dispatch(emptyUsernames())
         dispatch(emptyMessages())
+        dispatch(emptyUserInfo())
 
         const q1 = query(collection(db, "rooms", params.room, "users"), orderBy("joinedAt", "desc"))
         const unsubscribeUsers = onSnapshot(q1, (usersQuerySnapshot) => {

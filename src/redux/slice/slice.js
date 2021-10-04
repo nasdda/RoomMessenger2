@@ -33,6 +33,9 @@ export const slice = createSlice({
                     isHost: action.payload.isHost
                 }
             }
+        },
+        emptyUserInfo: (state) => {
+            state.userInfos = {}
         }
     }
 })
@@ -40,7 +43,8 @@ export const slice = createSlice({
 
 export const {
     addMessage, emptyMessages, setChatEndRef,
-    setGlobalRoomName, addUserinfo, emptyUsernames
+    setGlobalRoomName, addUserinfo, emptyUsernames,
+    emptyUserInfo
 } = slice.actions
 
 export const selectMessages = state => state.main.messages
