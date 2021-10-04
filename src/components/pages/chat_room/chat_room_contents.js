@@ -68,7 +68,6 @@ function ChatRoomContents(props) {
     const params = Object.fromEntries(urlSearchParams.entries())
 
     useEffect(() => {
-        dispatch(emptyUsernames())
         dispatch(emptyMessages())
         dispatch(emptyUserInfo())
 
