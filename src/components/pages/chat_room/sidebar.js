@@ -183,6 +183,7 @@ function Sidebar(props) {
                 <div className={classes.drawerHeader}>
                     <Tooltip title="Close">
                         <IconButton
+                            color="primary"
                             onClick={() => props.setOpen(false)}
                             className={classes.emojiButton}
                             component="span"
