@@ -181,7 +181,7 @@ function Sidebar(props) {
                 }}
             >
                 <div className={classes.drawerHeader}>
-                    <Tooltip title="Close">
+                    <Tooltip title="Close" arrow>
                         <IconButton
                             color="primary"
                             onClick={() => props.setOpen(false)}
