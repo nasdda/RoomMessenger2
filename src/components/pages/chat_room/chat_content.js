@@ -23,14 +23,14 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "row",
         marginBottom: "0.5rem",
-        justifyContent: "left",
+        justifyContent: "flex-start",
         alignItems: "flex-end"
     },
     isUser: {
         width: "100%",
         display: "flex",
         flexDirection: "row",
-        justifyContent: "right",
+        justifyContent: "flex-end",
         marginBottom: "0.5rem",
         alignItems: "flex-end"
     },
@@ -43,7 +43,6 @@ const useStyles = makeStyles(theme => ({
         wordWrap: "break-word",
         overflowWrap: "break-word",
         hyphens: "auto"
-
     },
     othersContainer: {
         backgroundColor: "#e6e6e6",
