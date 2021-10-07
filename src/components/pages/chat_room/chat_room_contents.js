@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         height: "100%",
+        width: "inherit"
     },
     chat: {
         flex: "1 1 auto",
@@ -37,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
         padding: "1rem",
         overflowWrap: 'break-word',
         overflowY: "auto",
-        borderBottom: "2px solid #e0e0e0"
+        borderBottom: "2px solid #e0e0e0",
+        width: "inherit"
     }
 }));
 
