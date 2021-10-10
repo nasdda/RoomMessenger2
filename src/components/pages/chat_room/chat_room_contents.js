@@ -91,7 +91,6 @@ function ChatRoomContents(props) {
                 if (messageChange.type === "added") {
                     dispatch(addMessage({ message: messageChange.doc }))
                 }
-                console.log(messageChange.type)
             })
         })
 
