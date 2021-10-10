@@ -27,12 +27,19 @@ function ChatRoom() {
                 alert("Please join rooms through the front page.")
                 history.push("/")
             } else {
-                getDoc(doc(collection(db, "rooms", params.room, "users"), user.uid)).then(userDoc => {
-                    if (!userDoc.exists()) {
-                        alert("You have not joined this room.")
+                getDoc(doc(db, "rooms", params.room)).then(roomDoc => {
+                    if (!roomDoc.exists()) {
+                        alert("Room does not exist.")
                         history.push("/")
                     } else {
-                        setVerified(true)
+                        getDoc(doc(collection(db, "rooms", params.room, "users"), user.uid)).then(userDoc => {
+                            if (!userDoc.exists()) {
+                                alert("You have not joined this room.")
+                                history.push("/")
+                            } else {
+                                setVerified(true)
+                            }
+                        })
                     }
                 })
             }
