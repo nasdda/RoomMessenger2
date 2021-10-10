@@ -64,7 +64,8 @@ async function handleRoomCreation(config, history) {
             try {
                 await setDoc(doc(db, "rooms", config.roomName), {
                     password: config.password ? encrypt(config.password) : "",
-                    hostUid: config.hostUid
+                    hostUid: config.hostUid,
+                    active: true
                 })
                 const grettingDoc = doc(collection(db, "rooms", config.roomName, "messages"))
                 await setDoc(grettingDoc, {

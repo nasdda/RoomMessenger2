@@ -10,6 +10,9 @@ const theme = createTheme({
     secondary: {
       main: '#f44336',
     },
+    error: {
+      main: '#ff0000'
+    }
   },
 });
 
