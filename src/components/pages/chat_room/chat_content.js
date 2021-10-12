@@ -37,25 +37,25 @@ const useStyles = makeStyles(theme => ({
     userContainer: {
         backgroundColor: "#f8e8ff",
         width: "fit-content",
-        maxWidth: "25rem",
+        maxWidth: "40rem",
         padding: "0.3rem 0.8rem",
         borderRadius: "1rem",
-        wordWrap: "break-word",
-        overflowWrap: "break-word",
+        overflowWrap: "anywhere",
         hyphens: "auto",
         [theme.breakpoints.down('xs')]: {
-            maxWidth: "20rem",
+            maxWidth: "calc(100vw - 2rem)"
         },
         
     },
     othersContainer: {
         backgroundColor: "#e6e6e6",
         width: "fit-content",
-        maxWidth: "25rem",
+        maxWidth: "40rem",
         padding: "0.3rem 0.8rem",
         borderRadius: "1rem",
+        overflowWrap: "anywhere",
         [theme.breakpoints.down('xs')]: {
-            maxWidth: "20rem",
+            maxWidth: "calc(100vw - 2rem)"
         },
     },
     avatarIcon: {
