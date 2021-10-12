@@ -42,14 +42,21 @@ const useStyles = makeStyles(theme => ({
         borderRadius: "1rem",
         wordWrap: "break-word",
         overflowWrap: "break-word",
-        hyphens: "auto"
+        hyphens: "auto",
+        [theme.breakpoints.down('xs')]: {
+            maxWidth: "20rem",
+        },
+        
     },
     othersContainer: {
         backgroundColor: "#e6e6e6",
         width: "fit-content",
         maxWidth: "25rem",
         padding: "0.3rem 0.8rem",
-        borderRadius: "1rem"
+        borderRadius: "1rem",
+        [theme.breakpoints.down('xs')]: {
+            maxWidth: "20rem",
+        },
     },
     avatarIcon: {
         height: "1.4rem",
