@@ -309,8 +309,8 @@ function Sidebar(props) {
                         </Tooltip>
                     }
                 </div>
-            </Drawer >
-        </div >
+            </Drawer>
+        </div>
     )
 }
 

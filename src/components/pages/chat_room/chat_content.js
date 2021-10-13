@@ -121,7 +121,7 @@ function ChatContent(props) {
 
     const time = new Date(props.createdAt)
     const year = time.getFullYear()
-    const month = time.getMonth()
+    const month = time.getMonth() + 1
     const date = time.getDate()
     const hours = time.getHours() % 12
     const minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes()
