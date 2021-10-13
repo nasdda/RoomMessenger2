@@ -32,7 +32,7 @@ const db = getFirestore()
 const auth = getAuth()
 
 function sendMessage(info) {
-    info.message.trim()
+    info.message = info.message.trim()
     if (!info.message)
         return
     addDoc(collection(db, "rooms", info.roomName, "messages"), {
