@@ -127,14 +127,14 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        width: "100%"
+        width: "100%",
+        marginBottom: "0.5rem"
     },
     usernamePiece: {
         maxWidth: "15rem",
         overflow: "hidden",
         whiteSpace: "no-wrap",
         textOverflow: "ellipsis",
-        marginBottom: "0.5rem"
     },
     deleteIconButton: {
         height: "3rem",
