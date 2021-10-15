@@ -37,8 +37,9 @@ const db = getFirestore()
 
 function sendMessage(info) {
     info.message = info.message.trim()
-    if (!info.message)
+    if (!info.message){
         return
+    }
     addDoc(collection(db, "rooms", info.roomName, "messages"), {
         uid: info.uid,
         content: info.message,

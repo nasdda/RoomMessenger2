@@ -109,11 +109,13 @@ function ChatContent(props) {
                 {props.photoURL ?
                     <img
                         src={props.photoURL}
+                        referrerpolicy="no-referrer"
                         className={`${classes.avatarIcon} ${avatarProps.className}`}
                         alt="avatar" /> :
                     <img
-                        className={`${classes.avatarIcon} ${avatarProps.className}`}
                         src="http://www.drumall.com/shop/img/member_no_img.gif"
+                        referrerpolicy="no-referrer"
+                        className={`${classes.avatarIcon} ${avatarProps.className}`}
                         alt="avatar" />}
             </>
         )
