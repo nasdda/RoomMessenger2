@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore"
 
 import encrypt from '../../../tools/encrypt'
+import getLAtime from '../../../tools/la_time'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -72,12 +73,12 @@ async function handleRoomCreation(config, history) {
                 await setDoc(grettingDoc, {
                     content: `Welcome to ${config.roomName}`,
                     uid: "---",
-                    createdAt: Date.now(),
+                    createdAt: getLAtime(),
                     type: "notification"
                 })
 
                 const userDoc = doc(collection(db, "rooms", config.roomName, "users"), config.hostUid)
-                const time = Date.now()
+                const time = getLAtime()
                 await setDoc(userDoc, {
                     username: config.hostName,
                     isHost: true,

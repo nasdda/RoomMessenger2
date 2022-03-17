@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAuth } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-
+import getLATime from '../../../tools/la_time'
 
 const useStyles = makeStyles((theme) => ({
     outerContainer: {
@@ -60,6 +60,7 @@ function sendMessage(info) {
         type: info.type
     })
 }
+
 
 
 function ChatRoomContents(props) {
@@ -109,7 +110,7 @@ function ChatRoomContents(props) {
                 roomName: params.room,
                 uid: user.uid,
                 photoURL: user.photoURL,
-                time: Date.now()
+                time: getLATime()
             })
         }
     }

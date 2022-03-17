@@ -17,6 +17,7 @@ import {
 } from "firebase/firestore"
 
 import encrypt from '../../../tools/encrypt'
+import getLAtime from '../../../tools/la_time'
 
 const useStyles = makeStyles((theme) => ({
     linkText: {
@@ -90,7 +91,7 @@ function JoinRoom(props) {
                                 setDoc(doc(collection(db, "rooms", parsedRoomName, "users"), user.uid), {
                                     username: parsedUsername,
                                     isHost: false,
-                                    joinedAt: Date.now(),
+                                    joinedAt: getLAtime(),
                                     photoURL: user.photoURL
                                 }).then(() => {
                                     sendMessage({
@@ -99,7 +100,7 @@ function JoinRoom(props) {
                                         roomName: roomName,
                                         uid: user.uid,
                                         photoURL: null,
-                                        time: Date.now()
+                                        time: getLAtime()
                                     })
                                     history.push(`/chatroom?room=${parsedRoomName}`)
                                 })

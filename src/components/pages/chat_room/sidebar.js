@@ -186,7 +186,7 @@ function Sidebar(props) {
         return (
             <img
                 src={props.src}
-                referrerpolicy="no-referrer"
+                referrerPolicy="no-referrer"
                 alt="avatar"
                 className={classes.avatar}
             />
